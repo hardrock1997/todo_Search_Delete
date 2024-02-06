@@ -1,60 +1,40 @@
-import {useState,useRef} from 'react';
+import {useState,useEffect} from 'react';
 import './App.css';
-
+import Cards from './Cards';
+const initialValue={
+  spade:['A','K','Q','J'],
+  hearts:['A','K','Q','J'],
+  diamond:['A','K','Q','J'],
+  club:['A','K','Q','J']
+}
 function App() {
-  const [inputVal,setInputVal]=useState('');
-  const [id,setId]=useState(1);
-  const [data,setData]=useState([{id:null,value:''}]);
-  const [dataCopy,setDataCopy]=useState([{id:null,value:''}]);
-  const inputRef=useRef();
-  function handleChange(e) {
-    if(e.target.value==='') {
-      setData(dataCopy);
+  const [cards,setCards]=useState(initialValue);
+
+  useEffect(()=>{
+    function generateCards() {
+      const keys=Object.keys(initialValue);
+      const obj={};
+      for(let i=0;i<keys.length;++i) {
+        const arr=initialValue[keys[i]];
+        for(let i=2;i<=10;++i) {
+          arr.push(i);
+        }
+        obj[keys[i]]=arr;
+      }
+      setCards(obj);
     }
-    setInputVal(e.target.value);
-  }
-  function handleClick() {
-    setData((prev)=>{
-      return [...prev,{id:id,value:inputVal}]
-    });
-    setDataCopy((prev)=>{
-      return [...prev,{id:id,value:inputVal}]
-    })
-    setId(prev=>prev+1);
-    setInputVal('')
-  }
-  function handleSearch(e) {
-    const typedValue=inputRef.current.value;
-    setData(data.filter((d)=>{
-      return d.value.toLocaleLowerCase().includes(typedValue);
-    }))
+    generateCards();
 
-  }
+  },[])
 
-  function handleDelete(id) {
-    setData(data.filter((d)=>{
-      return d.id!==id;
-    }));
-    setDataCopy(data.filter((d)=>{
-      return d.id!==id;
-    }));
-  }
   return (
     <div className='main_container'>
-        <div className='input_container'>
-          <input type='text' value={inputVal} onChange={handleChange} ref={inputRef}/>
-          <button onClick={handleClick}>Add</button>
-          <button onClick={handleSearch}>Search</button>
-        </div>
-        {data
-        .map((d)=>{
-          return (
-            <div key={d.id} className='container'>
-              <h2>{d.value}</h2>
-              {d.value && <div className='btn'><button onClick={()=>handleDelete(d.id)}>Delete</button></div>}
-            </div>
-          )
-        })}
+    <Cards 
+      cards1={cards.spade} 
+      cards2={cards.diamond} 
+      cards3={cards.hearts} 
+      cards4={cards.club}
+    />
     </div>
   );
 }

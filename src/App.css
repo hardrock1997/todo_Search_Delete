@@ -4,19 +4,36 @@
   margin: 0 auto;
 }
 
-.container {
+.cards {
   display: flex;
-  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap:85px;
+  margin-top: 20vh;
 }
-
-.input_container {
-  width: 500px;
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 10vh;
-}
-.btn {
+.card {
+  border: 1px solid black;
+  height: 25vh;
+  width:10vw;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 55px;
+  padding: 10px;
+}
+.top {
+  display: flex;
+  justify-content:space-between;
+  width: 100%;
+ 
+}
+
+.bottom {
+
+  display: flex;
+  justify-content:space-between;
+  width: 100%;
+}
+.bottom h4 {
+  transform: scale(-1,-1);
 }
